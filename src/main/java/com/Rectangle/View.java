@@ -1,17 +1,12 @@
 package com.Rectangle;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Scanner;
 
 public class View {
-    public void write(Rectangle rectangle) throws InvocationTargetException, IllegalAccessException {
-        System.out.println(rectangle);
-        System.out.println("Class name: \n" + Main.getClassname(rectangle.getClass()) + "\n Class fields:\n" +
-                Main.getFields(rectangle.getClass()) + "\n" + Main.callMethods(rectangle) + "\n");
+    protected static View instance = new View();
 
-//        RectangleInterface proxy = (RectangleInterface) RectangleProxy.newProxyInstance(rectangle);
-//        System.out.println("getA(): " + proxy.getA());
-//        proxy.setA(5);
+    public static View getInstance() {
+        return instance;
     }
 
     public int[] read() {
@@ -33,6 +28,14 @@ public class View {
         array[0] = in.nextInt();
         array[1] = in.nextInt();
         return array;
+    }
+
+    public void printHello() {
+        System.out.println("Введіть команду заповнення\\виведення\\зміщення:");
+    }
+
+    public void printString(String result) {
+        System.out.println(result);
     }
 
 }

@@ -1,19 +1,17 @@
 package com.Rectangle;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
 
         var view = new View();
-        var rectangle = new Rectangle();
-        var controller = new Controller(rectangle, view);
+        var rectangle = (RectangleInterface) RectangleProxy.newProxyInstance(new Rectangle());
+        var service = MyService.getInstance();
+        service.setRectangle(rectangle);
+        var in = new Scanner(System.in);
+        var controller = new Controller(rectangle, view, in);
 
         controller.run();
 
@@ -34,32 +32,4 @@ public class Main {
 
     }
 
-    public static String getClassname(Class<? extends Rectangle> c) {
-
-        return Modifier.toString(c.getModifiers()) + " " + c.getName();
-    }
-
-    public static List<String> callMethods(Rectangle rectangle) throws IllegalAccessException, InvocationTargetException {
-        List<String> methodsArray = new ArrayList<String>();
-        for (Method method : rectangle.getClass().getMethods()) {
-            if (method.isAnnotationPresent(MyAnnotation.class)) {
-                String str = method.getName() + ": " + method.invoke(rectangle);
-//                System.out.println(str);
-                methodsArray.add(str);
-                //System.out.println(method.getName() + ": " + method.invoke(rectangle));
-            }
-        }
-        return methodsArray;
-    }
-
-    public static ArrayList<String> getFields(Class<? extends Rectangle> c) {
-        ArrayList<String> fieldsArray = new ArrayList<String>();
-        for (Field field : c.getFields()) {
-            String str = Modifier.toString(field.getModifiers()) + " " + field.getType().getName() + " " +
-                    field.getName();
-//            System.out.println(str);
-            fieldsArray.add(str);
-        }
-        return fieldsArray;
-    }
 }

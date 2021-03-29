@@ -1,27 +1,28 @@
 package com.Rectangle;
 
-public class Controller {
-    Rectangle rectangle;
-    View view;
+import java.util.Scanner;
 
-    public Controller(Rectangle rectangle, View view) {
+public class Controller {
+    RectangleInterface rectangle;
+    View view;
+    Scanner in;
+    CommandFactory commandFactory = CommandFactory.getInstance();
+
+    public Controller(RectangleInterface rectangle, View view, Scanner in) {
         this.rectangle = rectangle;
         this.view = view;
+        this.in = in;
     }
 
-    public void run() throws Exception {
-        var input = view.read();
+    public void run() {
+        while (true) {
+            view.printHello();
 
-        rectangle.setX(input[0]);
-        rectangle.setY(input[1]);
-        rectangle.setA(input[2]);
-        rectangle.setB(input[3]);
+            var userCommand = in.nextLine();
+            Command command = commandFactory.getCommand(userCommand);
+            String result = command.execute();
 
-        view.write(rectangle);
-
-        var inputMove = view.readMove();
-
-        rectangle.move(inputMove[0], inputMove[1]);
-        view.write(rectangle);
+            view.printString(result);
+        }
     }
 }

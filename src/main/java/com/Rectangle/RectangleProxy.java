@@ -12,10 +12,8 @@ public class RectangleProxy implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        if (method.getName().startsWith("get")) {
-            return method.invoke(ref, args);
-        }
-        throw new IllegalAccessException("Not allowed");
+        System.out.println("Викликаємо " + method.getName() + " обєкту " + ref.getClass().getName());
+        return method.invoke(ref, args);
     }
 
     public static Object newProxyInstance(Object obj) {

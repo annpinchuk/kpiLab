@@ -12,26 +12,28 @@ public class MainTest {
     @Test
     public void DoesGetFieldsReturnRightValues() {
         var rectangle = new Rectangle(5, 6, 7, 8);
+        var service = MyService.getInstance();
         var c = rectangle.getClass();
         var fieldsArray = Arrays.asList("public java.lang.Integer a", "public java.lang.Integer b", "public java.lang.Integer x", "public java.lang.Integer y");
-        assertEquals(Main.getFields(c), fieldsArray);
+        assertEquals(service.getFields(c), fieldsArray);
     }
-
 
     @Test
     public void DoesCallMethodsReturnRightValues() throws InvocationTargetException, IllegalAccessException {
         var rectangle = new Rectangle(5, 6, 7, 8);
+        var service = MyService.getInstance();
         var methodsArray = Arrays.asList("toString: Rectangle{x=5, y=6; a=7, b=8}", "getA: 7", "getB: 8");
 
-        assertTrue(methodsArray.containsAll(Main.callMethods(rectangle)));
+        assertTrue(methodsArray.containsAll(service.callMethods(rectangle)));
     }
 
     @Test
     public void DoesGetClassNameReturnRightValues() {
         var rectangle = new Rectangle(5, 6, 7, 8);
+        var service = MyService.getInstance();
         var c = rectangle.getClass();
         String s = "public com.Rectangle.Rectangle";
 
-        assertEquals(Main.getClassname(c), s);
+        assertEquals(service.getClassname(c), s);
     }
 }
